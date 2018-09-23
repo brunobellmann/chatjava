@@ -10,7 +10,7 @@ public class Handler
     private static Scanner scanner;
     public static void main(String[] args)
     {
-        int port = Integer.parseInt(args[0]);
+        int port = 1220;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
 
