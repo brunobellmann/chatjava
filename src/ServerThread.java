@@ -4,10 +4,12 @@ import java.io.*;
 public class ServerThread extends Thread
 {
     private Socket socket;
+    private int id;
 
-    public ServerThread(Socket socket)
+    public ServerThread(Socket socket, int id)
     {
         this.socket = socket;
+        this.id = id;
     }
 
     public void run() {
@@ -23,8 +25,13 @@ public class ServerThread extends Thread
 
             do {
                 text = reader.readLine();
-                String reverseText = new StringBuilder(text).reverse().toString();
-                writer.println("Server: " + reverseText);
+                if(text.equals("bye"))
+                    System.out.println("Client disconnected");
+                else
+                {
+                    String reverseText = new StringBuilder(text).reverse().toString();
+                    writer.println("Server: " + reverseText);
+                }
 
             } while (!text.equals("bye"));
 

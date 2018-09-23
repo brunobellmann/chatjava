@@ -9,7 +9,7 @@ public class JavaClient
 
         int port = 1220;
 
-        try (Socket socket = new Socket(Inet4Address.getByName("192.168.178.35"), port)) {
+        try (Socket socket = new Socket(Inet4Address.getByName("localhost"), port)) {
 
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
@@ -22,6 +22,8 @@ public class JavaClient
             do {
                 text = in.nextLine();
 
+
+
                 writer.println(text);
 
                 InputStream input = socket.getInputStream();
@@ -32,8 +34,6 @@ public class JavaClient
                 System.out.println(time);
 
             } while (!text.equals("bye"));
-
-            socket.close();
 
         } catch (UnknownHostException ex) {
 
