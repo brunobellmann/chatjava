@@ -9,7 +9,7 @@ public class JavaClient
 
         int port = 1220;
 
-        try (Socket socket = new Socket(Inet4Address.getByName("localhost"), port)) {
+        try (Socket socket = new Socket(Inet4Address.getByName("192.168.178.35"), port)) {
 
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
