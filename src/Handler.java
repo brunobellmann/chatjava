@@ -8,9 +8,12 @@ import java.util.Scanner;
 public class Handler
 {
     private static Scanner scanner;
+    private static int clientCounter;
+
     public static void main(String[] args)
     {
         int port = 1220;
+        clientCounter = 0;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
 
@@ -20,7 +23,16 @@ public class Handler
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected");
 
-                new ServerThread(socket).start();
+                clientCounter ++;
+                new ServerThread(socket, clientCounter).start();
+
+
+                /*InputStream input = socket.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+                String time = reader.readLine();
+
+                System.out.println(time);*/
             }
 
         } catch (IOException ex) {

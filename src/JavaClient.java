@@ -22,6 +22,8 @@ public class JavaClient
             do {
                 text = in.nextLine();
 
+
+
                 writer.println(text);
 
                 InputStream input = socket.getInputStream();
@@ -32,8 +34,6 @@ public class JavaClient
                 System.out.println(time);
 
             } while (!text.equals("bye"));
-
-            socket.close();
 
         } catch (UnknownHostException ex) {
 
