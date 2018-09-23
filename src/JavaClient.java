@@ -1,37 +1,47 @@
 import java.io.*;
 import java.net.*;
-import java.sql.SQLOutput;
+import java.util.Scanner;
 
 public class JavaClient
 {
     public static void main(String[] args) {
 
-        try {
-            Socket client = new Socket("localhost", 1220);
-            System.out.println("Client started");
 
+        int port = 1220;
 
-            //Input- und Outputstreams
+        try (Socket socket = new Socket(Inet4Address.getByName("localhost"), port)) {
 
-            OutputStream out = client.getOutputStream();
-            PrintWriter writer = new PrintWriter(out);
+            OutputStream output = socket.getOutputStream();
+            PrintWriter writer = new PrintWriter(output, true);
 
-            InputStream in = client.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            Console console = System.console();
+            String text;
+            Scanner in;
+            in = new Scanner(System.in);
 
-            //-----------------------------------
+            do {
+                text = in.nextLine();
 
-            writer.write(" Hallo Server!");
-            writer.flush();
+                writer.println(text);
 
-            writer.close();
-            reader.close();
+                InputStream input = socket.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
+                String time = reader.readLine();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+                System.out.println(time);
+
+            } while (!text.equals("bye"));
+
+            socket.close();
+
+        } catch (UnknownHostException ex) {
+
+            System.out.println("Server not found: " + ex.getMessage());
+
+        } catch (IOException ex) {
+
+            System.out.println("I/O error: " + ex.getMessage());
         }
-
-
     }
 }
