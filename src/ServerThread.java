@@ -25,8 +25,11 @@ public class ServerThread extends Thread
 
             do {
                 text = reader.readLine();
-                if(text.equals("bye"))
+
+                if(text.equals("bye")) {
                     System.out.println("Client disconnected");
+                    writer.println("Server: You are disconnected");
+                }
                 else
                 {
                     String reverseText = new StringBuilder(text).reverse().toString();
