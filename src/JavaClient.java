@@ -6,10 +6,10 @@ public class JavaClient
 {
     public static void main(String[] args) {
 
-        String hostname = "localhost";
-        int port = 8888;
 
-        try (Socket socket = new Socket(hostname, port)) {
+        int port = 1220;
+
+        try (Socket socket = new Socket(Inet4Address.getByName("localhost"), port)) {
 
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
