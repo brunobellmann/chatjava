@@ -1,14 +1,18 @@
 import java.io.*;
-import java.net.*;
-import java.sql.SQLOutput;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class JavaClient
-{
+public class JavaServer {
+
+
     public static void main(String[] args) {
 
         try {
-            Socket client = new Socket("localhost", 1220);
-            System.out.println("Client started");
+
+            ServerSocket server = new ServerSocket(1220);
+            System.out.println("Server is on");
+
+            Socket client = server.accept();
 
 
             //Input- und Outputstreams
@@ -21,17 +25,18 @@ public class JavaClient
 
             //-----------------------------------
 
-            writer.write(" Hallo Server!");
-            writer.flush();
+            String s = null;
+
+            while ((s = reader.readLine()) != null) {
+                System.out.println("Recieved from client " + s);
+
+            }
 
             writer.close();
             reader.close();
 
-
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }
