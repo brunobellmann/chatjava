@@ -44,7 +44,7 @@ public class ServerThread extends Thread
                 if (text.equals("bye"))
                 {
                     System.out.println("Client disconnected");
-                    writer.println("You diconnected");
+                    writer.println("You are disconnected");
                 } else
                 {
                     writer.println("Partner: " + text);
