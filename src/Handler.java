@@ -1,43 +1,46 @@
 import java.io.*;
-import java.net.Inet4Address;
 import java.net.*;
-import java.net.UnknownHostException;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Handler
 {
-    private static Scanner scanner;
-    private static int clientCounter;
-
     public static void main(String[] args)
     {
-        int port = 1220;
-        clientCounter = 0;
+        Scanner in = new Scanner(System.in);
 
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
+        System.out.print("Enter port: ");
+        int port = in.nextInt();
+
+        try (ServerSocket serverSocket = new ServerSocket(port))
+        {
 
             System.out.println("Server is listening on port " + port);
 
-            while (true) {
+            while (true)
+            {
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected");
 
-                clientCounter ++;
-                new ServerThread(socket, clientCounter).start();
-
-
-                /*InputStream input = socket.getInputStream();
+                InputStream input = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-                String time = reader.readLine();
+                OutputStream output = socket.getOutputStream();
+                PrintWriter writer = new PrintWriter(output, true);
 
-                System.out.println(time);*/
+                ServerThread newThread = new ServerThread(socket);
+                newThread.start();
+
+
+                String text = in.nextLine();
+
+                if (text.equals("exit"))
+                    serverSocket.close();
             }
-
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
+            System.exit(0);
         }
     }
 }

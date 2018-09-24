@@ -4,39 +4,57 @@ import java.io.*;
 public class ServerThread extends Thread
 {
     private Socket socket;
-    private int id;
+    private ServerThread partner;
+    private PrintWriter writer;
 
-    public ServerThread(Socket socket, int id)
+    public ServerThread(Socket socket)
     {
         this.socket = socket;
-        this.id = id;
+        partner = null;
     }
 
-    public void run() {
-        try {
+    public void setChatpartner(ServerThread partner)
+    {
+        this.partner = partner;
+    }
+
+    public PrintWriter getWriter()
+    {
+        if (writer != null)
+            return writer;
+        else
+            return null;
+    }
+
+    public void run()
+    {
+        try
+        {
             InputStream input = socket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
 
-
             String text;
 
-            do {
+            do
+            {
                 text = reader.readLine();
-                if(text.equals("bye"))
-                    System.out.println("Client disconnected");
-                else
+                if (text.equals("bye"))
                 {
-                    String reverseText = new StringBuilder(text).reverse().toString();
-                    writer.println("Server: " + reverseText);
+                    System.out.println("Client disconnected");
+                    writer.println("You diconnected");
+                } else
+                {
+                    writer.println("Partner: " + text);
                 }
 
             } while (!text.equals("bye"));
 
             socket.close();
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
         }

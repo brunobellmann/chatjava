@@ -4,43 +4,44 @@ import java.util.Scanner;
 
 public class JavaClient
 {
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
+        Scanner in;
+        String message;
 
-        int port = 1220;
+        in = new Scanner(System.in);
 
-        try (Socket socket = new Socket(Inet4Address.getByName("localhost"), port)) {
+        System.out.print("Enter host: ");
+        String host = in.nextLine();
+
+        System.out.print("Enter Serverport: ");
+        int port = in.nextInt();
+
+        try (Socket socket = new Socket(Inet4Address.getByName(host), port))
+        {
 
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
 
-            Console console = System.console();
-            String text;
-            Scanner in;
-            in = new Scanner(System.in);
-
-            do {
-                text = in.nextLine();
-
-
-
-                writer.println(text);
+            do
+            {
+                message = in.nextLine();
+                writer.println(message);
 
                 InputStream input = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
                 String time = reader.readLine();
-
                 System.out.println(time);
 
-            } while (!text.equals("bye"));
+            } while (!message.equals("bye"));
 
-        } catch (UnknownHostException ex) {
-
+        } catch (UnknownHostException ex)
+        {
             System.out.println("Server not found: " + ex.getMessage());
-
-        } catch (IOException ex) {
-
+        } catch (IOException ex)
+        {
             System.out.println("I/O error: " + ex.getMessage());
         }
     }
